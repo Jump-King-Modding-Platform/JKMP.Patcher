@@ -41,3 +41,4 @@ jobs:
           tag: latest
           commit: ${{ github.sha }}
           name: Automated build
+          allowUpdates: true
