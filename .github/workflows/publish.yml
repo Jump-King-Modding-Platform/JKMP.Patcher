@@ -26,12 +26,11 @@ jobs:
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
       - name: Zip build
-        uses: TheDoctor0/zip-release@0.6.0
+        uses: vimtor/action-zip@v1
         with:
-          type: "zip"
-          filename: "../../../../Build.zip"
-          directory: "JKMP.Patcher/bin/Release/net5.0/"
-          exclusions: "*.pdb"
+          files: "JKMP.Patcher/bin/Release/net5.0/"
+          dest: "Build.zip"
+          recursive: true
       - name: Publish release
         uses: ncipollo/release-action@v1
         with:
