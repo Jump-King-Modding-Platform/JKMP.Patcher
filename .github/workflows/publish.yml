@@ -40,3 +40,4 @@ jobs:
           prerelease: true
           tag: ${{ github.ref }}
           commit: ${{ github.sha }}
+          name: Automated build
