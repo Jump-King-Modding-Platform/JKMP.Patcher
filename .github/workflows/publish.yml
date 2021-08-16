@@ -21,14 +21,14 @@ jobs:
         run: dotnet restore
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build project
-        run: dotnet build --no-restore -c Release
+      - name: Publish project
+        run: dotnet publish --no-restore -c Release -p:PublishSingleFile=true --self-contained false -r win-x64
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
       - name: Zip build
         uses: vimtor/action-zip@v1
         with:
-          files: "JKMP.Patcher/bin/Release/net5.0/"
+          files: "JKMP.Patcher/bin/Release/net5.0/win-x64/publish/"
           dest: "Build.zip"
           recursive: true
       - name: Publish release
