@@ -29,7 +29,7 @@ jobs:
         uses: TheDoctor0/zip-release@0.6.0
         with:
           type: "zip"
-          filename: "Build.zip"
+          filename: "../../../../Build.zip"
           directory: "JKMP.Patcher/bin/Release/net5.0/"
           exclusions: "*.pdb"
       - name: Publish release
