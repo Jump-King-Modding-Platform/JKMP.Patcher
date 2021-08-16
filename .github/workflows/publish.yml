@@ -30,7 +30,7 @@ jobs:
         with:
           type: "zip"
           filename: "Build.zip"
-          path: "JKMP.Patcher/bin/Release/net5.0/**/*"
+          directory: "JKMP.Patcher/bin/Release/net5.0/*"
           exclusions: "**/*.pdb"
       - name: Publish release
         uses: ncipollo/release-action@v1
