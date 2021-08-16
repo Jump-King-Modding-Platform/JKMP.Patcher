@@ -32,12 +32,11 @@ jobs:
           dest: "Build.zip"
           recursive: true
       - name: Publish release
-        uses: ncipollo/release-action@v1
+        uses: johnwbyrd/update-release@v1.0.0
         with:
-          artifacts: "Build.zip,LICENSE"
           token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            Build.zip
+            LICENSE
           prerelease: true
           tag: latest
-          commit: ${{ github.sha }}
-          name: Automated build
-          allowUpdates: true
