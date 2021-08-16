@@ -29,12 +29,12 @@ jobs:
         uses: TheDoctor0/zip-release@0.6.0
         with:
           type: "zip"
-          filename: "${{ github.repository }}.zip"
+          filename: "Build.zip"
           path: "JKMP.Patcher/bin/Release/net5.0/**/*"
           exclusions: "**/*.pdb"
       - name: Publish release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ github.repository }}.zip,LICENSE"
+          artifacts: "Build.zip,LICENSE"
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
