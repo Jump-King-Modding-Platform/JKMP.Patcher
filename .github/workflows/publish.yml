@@ -31,6 +31,13 @@ jobs:
           files: "JKMP.Patcher/bin/Release/net5.0/win-x64/publish/"
           dest: "Build.zip"
           recursive: true
+      - name: Delete old release
+        uses: dev-drprasad/delete-tag-and-release@v0.2.0
+        with:
+          delete_release: true
+          tag_name: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish release
         uses: johnwbyrd/update-release@v1.0.0
         with:
