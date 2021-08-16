@@ -38,5 +38,5 @@ jobs:
           artifacts: "Build.zip,LICENSE"
           token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
-          tag: ${{ GITHUB_REF }}
-          commit: ${{ GITHUB_SHA }}
+          tag: ${{ github.ref }}
+          commit: ${{ github.sha }}
