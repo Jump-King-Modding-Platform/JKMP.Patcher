@@ -2,7 +2,7 @@ name: Build and create release
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, development ]
 
 jobs:
   build:
@@ -47,3 +47,4 @@ jobs:
             LICENSE
           prerelease: true
           tag: latest
+          release: "Development build"
