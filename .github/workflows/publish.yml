@@ -22,7 +22,7 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish project
-        run: dotnet publish --no-restore -c Release -p:PublishSingleFile=true --self-contained false -r win-x64
+        run: dotnet publish --no-restore -c Release -r win
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
       - name: Zip build
