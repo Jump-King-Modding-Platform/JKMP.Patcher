@@ -28,7 +28,7 @@ jobs:
       - name: Zip build
         uses: vimtor/action-zip@v1
         with:
-          files: "JKMP.Patcher/bin/Release/net5.0/win-x64/publish/"
+          files: "JKMP.Patcher/bin/Release/net5.0/win/publish/"
           dest: "Build.zip"
           recursive: true
       - name: Delete old release
