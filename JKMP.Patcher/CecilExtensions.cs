@@ -21,7 +21,7 @@ namespace JKMP.Patcher
             return processor.Body.Instructions.Any(instr =>
                 instr.OpCode == OpCodes.Call &&
                 instr.Operand is MethodReference mRef &&
-                mRef.DeclaringType.Name == fullTypeName &&
+                mRef.DeclaringType.FullName == fullTypeName &&
                 mRef.Name == methodName
             );
         }
