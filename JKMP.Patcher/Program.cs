@@ -16,13 +16,16 @@ namespace JKMP.Patcher
             public string? GamePath { get; set; }
         }
 
-        private static Dictionary<string, ICollection<IPatch>> FilePatches { get; set; } = new()
+        private static Dictionary<string, ICollection<IPatch>> FilePatches { get; } = new()
         {
             {
                 "JumpKing.exe",
-                new[]
+                new IPatch[]
                 {
-                    new CoreInitPatch()
+                    new CoreInitPatch(),
+                    new MakeGameLoopPublicPatch(),
+                    new MakeIntroStatePublicPatch(),
+                    new MakeGameTitleScreenPublicPatch()
                 }
             }
         };
