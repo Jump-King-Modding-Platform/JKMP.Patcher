@@ -23,9 +23,7 @@ namespace JKMP.Patcher
                 new IPatch[]
                 {
                     new CoreInitPatch(),
-                    new MakeGameLoopPublicPatch(),
-                    new MakeIntroStatePublicPatch(),
-                    new MakeGameTitleScreenPublicPatch()
+                    new MakeInternalTypesPublic()
                 }
             }
         };
