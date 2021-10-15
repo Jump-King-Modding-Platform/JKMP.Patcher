@@ -38,6 +38,7 @@ namespace JKMP.Patcher
                     if (!File.Exists("JKMP.Core.dll"))
                     {
                         Console.WriteLine("JKMP.Core.dll not found, make sure you extracted all files.");
+                        Environment.ExitCode = 1;
                         return;
                     }
 
@@ -106,8 +107,7 @@ namespace JKMP.Patcher
                         Console.WriteLine(" done.");
                     }
 
-                    Console.WriteLine("All patches applied successfully! Exiting in 5 seconds.");
-                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    Console.WriteLine("All patches applied successfully!");
                 });
         }
     }
