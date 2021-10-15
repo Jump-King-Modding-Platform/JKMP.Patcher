@@ -14,6 +14,9 @@ namespace JKMP.Patcher
         {
             [Option('g', "gamepath", HelpText = "The path to the game. If it's not defined the current directory will be used.")]
             public string? GamePath { get; set; }
+            
+            [Option("ci", HelpText = "Only used for CI. If you don't know what this is then you don't need it", Required = false, Default = false)]
+            public bool CI { get; set; }
         }
 
         private static Dictionary<string, ICollection<IPatch>> FilePatches { get; } = new()
@@ -35,15 +38,20 @@ namespace JKMP.Patcher
                 {
                     args.GamePath ??= Directory.GetCurrentDirectory();
 
-                    if (!File.Exists("JKMP.Core.dll"))
+                    if (!args.CI && !File.Exists("JKMP.Core.dll"))
                     {
                         Console.WriteLine("JKMP.Core.dll not found, make sure you extracted all files.");
                         Environment.ExitCode = 1;
                         return;
                     }
 
-                    var coreModule = ModuleDefinition.ReadModule("JKMP.Core.dll");
+                    ModuleDefinition? coreModule = null;
                     
+                    if (!args.CI)
+                    {
+                        coreModule = ModuleDefinition.ReadModule("JKMP.Core.dll");
+                    }
+
                     DefaultAssemblyResolver assemblyResolver = new();
                     assemblyResolver.AddSearchDirectory(args.GamePath);
                     
@@ -51,6 +59,11 @@ namespace JKMP.Patcher
                     Directory.CreateDirectory("backup");
 
                     Console.WriteLine($"Patching game files in '{args.GamePath}'...");
+
+                    if (args.CI)
+                    {
+                        Console.WriteLine("Patching game files using CI mode");
+                    }
 
                     foreach (var kv in FilePatches)
                     {
@@ -83,6 +96,12 @@ namespace JKMP.Patcher
 
                         foreach (IPatch patch in kv.Value)
                         {
+                            if (patch.RequiresJKMPCore && args.CI)
+                            {
+                                Console.WriteLine($"Skipping JKMP dependant patch '{patch.Name}' due to CI flag being set");
+                                continue;
+                            }
+                            
                             if (patch.CheckIsPatched(module, coreModule))
                             {
                                 Console.WriteLine($"Skipping previously applied patch '{patch.Name}'");

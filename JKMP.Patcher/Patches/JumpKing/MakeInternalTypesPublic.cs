@@ -7,12 +7,14 @@ namespace JKMP.Patcher.Patches.JumpKing
     public class MakeInternalTypesPublic : IPatch
     {
         public string Name => "Make all internal types public";
-        public bool CheckIsPatched(ModuleDefinition module, ModuleDefinition coreModule)
+        public bool RequiresJKMPCore => false;
+
+        public bool CheckIsPatched(ModuleDefinition module, ModuleDefinition? coreModule)
         {
             return false;
         }
 
-        public void Patch(ModuleDefinition module, ModuleDefinition coreModule)
+        public void Patch(ModuleDefinition module, ModuleDefinition? coreModule)
         {
             foreach (var type in module.Types)
             {

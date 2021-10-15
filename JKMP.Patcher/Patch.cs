@@ -6,7 +6,9 @@ namespace JKMP.Patcher
     {
         string Name { get; }
         
-        bool CheckIsPatched(ModuleDefinition module, ModuleDefinition coreModule);
-        void Patch(ModuleDefinition module, ModuleDefinition coreModule);
+        bool RequiresJKMPCore { get; }
+        
+        bool CheckIsPatched(ModuleDefinition module, ModuleDefinition? coreModule);
+        void Patch(ModuleDefinition module, ModuleDefinition? coreModule);
     }
 }
