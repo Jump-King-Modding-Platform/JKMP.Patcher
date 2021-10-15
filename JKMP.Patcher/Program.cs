@@ -46,7 +46,7 @@ namespace JKMP.Patcher
                     }
 
                     ModuleDefinition? coreModule = null;
-                    
+
                     if (!args.CI)
                     {
                         coreModule = ModuleDefinition.ReadModule("JKMP.Core.dll");
@@ -54,7 +54,7 @@ namespace JKMP.Patcher
 
                     DefaultAssemblyResolver assemblyResolver = new();
                     assemblyResolver.AddSearchDirectory(args.GamePath);
-                    
+
                     // Create backup directory
                     Directory.CreateDirectory("backup");
 
@@ -74,7 +74,7 @@ namespace JKMP.Patcher
                             Console.WriteLine($"Could not find file: '{filePath}'! Skipping...");
                             continue;
                         }
-                        
+
                         // Backup original file
                         string backupFilePath = Path.Combine("backup", kv.Key);
 
@@ -91,8 +91,10 @@ namespace JKMP.Patcher
                             ReadWrite = true,
                             AssemblyResolver = assemblyResolver
                         });
-                        
+
                         Console.WriteLine($" loaded module {module.Assembly.FullName}");
+
+                        bool hasErrored = false;
 
                         foreach (IPatch patch in kv.Value)
                         {
@@ -101,7 +103,7 @@ namespace JKMP.Patcher
                                 Console.WriteLine($"Skipping JKMP dependant patch '{patch.Name}' due to CI flag being set");
                                 continue;
                             }
-                            
+
                             if (patch.CheckIsPatched(module, coreModule))
                             {
                                 Console.WriteLine($"Skipping previously applied patch '{patch.Name}'");
@@ -117,16 +119,30 @@ namespace JKMP.Patcher
                                 catch (Exception e)
                                 {
                                     Console.WriteLine($"Failed to apply patch:\n{e}");
+                                    hasErrored = true;
                                 }
                             }
                         }
 
-                        Console.Write("Writing changes to original file...");
-                        module.Write();
-                        Console.WriteLine(" done.");
+                        if (!hasErrored)
+                        {
+                            Console.Write("Writing changes to original file...");
+                            module.Write();
+                            Console.WriteLine(" done.");
+                            Console.WriteLine("All patches applied successfully!");
+                        }
+                        else
+                        {
+                            Environment.ExitCode = 1;
+                            Console.WriteLine("One or more errors occured during patching.");
+                        }
                     }
 
-                    Console.WriteLine("All patches applied successfully!");
+                    if (!args.CI)
+                    {
+                        Console.WriteLine("Press any key to exit...");
+                        Console.ReadKey();
+                    }
                 });
         }
     }
