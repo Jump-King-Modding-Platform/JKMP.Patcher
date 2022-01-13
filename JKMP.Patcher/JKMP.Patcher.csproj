@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net452</TargetFramework>
+        <TargetFramework>net462</TargetFramework>
         <RuntimeIdentifier>win</RuntimeIdentifier>
         <Nullable>enable</Nullable>
         <LangVersion>9</LangVersion>
@@ -9,6 +9,20 @@
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="CommandLineParser" Version="2.8.0" />
+      <PackageReference Include="ILRepack" Version="2.0.18" />
       <PackageReference Include="Mono.Cecil" Version="0.11.4" />
     </ItemGroup>
+    
+    <Target Name="Merge assemblies" AfterTargets="PostBuildEvent">
+        <ItemGroup>
+            <MergeAssemblies Include="CommandLine.dll" />
+            <MergeAssemblies Include="Mono.Cecil.dll" />
+            <MergeAssemblies Include="Mono.Cecil.Mdb.dll" />
+            <MergeAssemblies Include="Mono.Cecil.Pdb.dll" />
+            <MergeAssemblies Include="Mono.Cecil.Rocks.dll" />
+        </ItemGroup>
+
+        <Exec WorkingDirectory="$(TargetDir)" Command="$(NugetPackageRoot)ILRepack\2.0.18\tools\ILRepack.exe /internalize /out:JKMP.Patcher.exe JKMP.Patcher.exe @(MergeAssemblies, ' ')" />
+        <Delete Files="@(MergeAssemblies->'$(TargetDir)%(Identity)')" />
+    </Target>
 </Project>
