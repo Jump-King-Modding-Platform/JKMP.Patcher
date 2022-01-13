@@ -32,10 +32,10 @@ jobs:
           files: "JKMP.Patcher/bin/Release/net452/win/publish/"
           dest: "JKMP.Patcher.zip"
       - name: Create release
-          uses: ncipollo/release-action@v1
-          with:
-            name: Modular release
-            artifacts: JKMP.Patcher.zip
-            token: ${{ secrets.GITHUB_TOKEN }}
-            tag: ${{ github.ref }}
-            generateReleaseNotes: true
+        uses: ncipollo/release-action@v1
+        with:
+          name: Modular release
+          artifacts: JKMP.Patcher.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+          generateReleaseNotes: true
